@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'http://192.168.1.40/root/demo_project.git',
+                    url: 'http://gitlab/root/demo_project.git',
                     credentialsId: "${GIT_CREDENTIALS}"
             }
         }
