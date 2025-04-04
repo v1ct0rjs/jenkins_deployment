@@ -175,7 +175,7 @@ Al iniciar sesión por primera vez, GitLab puede pedirte que cambie la contrase�
 - Opcionalmente agregua una descripción y marque la casilla de inicializar con un README.
 - Pulse **"Create project"**.
 
-![image-20250403222354031](/home/v1ct0r/snap/typora/96/.config/Typora/typora-user-images/image-20250403222354031.png)
+![image-20250403222354031](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403222354031.png)
 
 GitLab creará el repositorio vacío. En la siguiente pantalla verá las instrucciones para agregar archivos. Puedes optar por clonar el repositorio localmente y añadir archivos, o bien usar la interfaz web para subirlos posteriormente. 
 
@@ -192,7 +192,7 @@ Ya tienes tu proyecto en GitLab y un token para que Jenkins se conecte. En el si
 
 Necesitaremos agregar el `Jenkinsfile` y el script `dockerhub_push.sh` al repositorio.
 
-![image-20250404003355650](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404003355650.png)
+![image-20250404003355650](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404003355650.png)
 
 ## Parte 3: Script `dockerhub_push.sh`
 
@@ -413,7 +413,7 @@ Para que funcionen correctamente estos dentro del contenedor de jenkins se debe 
    getent group docker
    ```
 
-   ![image-20250403232233998](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403232233998.png)
+   ![image-20250403232233998](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403232233998.png)
 
    Esto devolverá el GID del grupo docker el cual tendremos que usar al crear el grupo docker dentro del contenedor de Jenkins en nuestro caso es el GID 975
 
@@ -447,7 +447,7 @@ Podemos comprobar que todo ha salido bien si desde la shell del host ejecutamos 
 docker exec -u jenkins jenkins docker ps
 ```
 
-![image-20250403233232369](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403233232369.png)
+![image-20250403233232369](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403232233998.png)
 
 ## Parte 6: Integración GitLab – Jenkins
 
@@ -465,19 +465,19 @@ Esto mostrará una cadena alfanumérica. Copia esa contraseña
 
 Ahora abre un navegador y vamos a **Jenkins** en `http://localhost:8080` 
 
-![image-20250403234359069](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403234359069.png)
+![image-20250403234359069](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403234359069.png)
 
 Jenkins te preguntará qué plugins instalar. Puedes elegir **"Install suggested plugins"** (Instalar plugins sugeridos) para que instale una lista básica recomendada. Esto tomará unos minutos. 
 
-![image-20250403234611732](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403234611732.png)
+![image-20250403234611732](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403221201732.png)
 
 Luego te pedirá crear un usuario administrador. Puede crear un usuario nuevo (recomendado) o continuar con el usuario `admin` estableciendo una contraseña. 
 
-![image-20250403234819709](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403234819709.png)
+![image-20250403234819709](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403234819709.png)
 
 Completa estos pasos hasta llegar al panel principal "Jenkins is ready".
 
-![image-20250403235123896](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403235123896.png)
+![image-20250403235123896](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403235123896.png)
 
 **2. Instalar plugins necesarios en Jenkins:** Vamos a instalar dos plugins específicos:
 
@@ -494,9 +494,9 @@ Haz lo mismo con **"OWASP Dependency-Check"** .
 
 Luego haga clic en **"Apply Changes"** o **"Install"**, y Jenkins descargará e instalará estos plugins.
 
-![image-20250403235658744](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403235658744.png)
+![image-20250403235658744](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403235658744.png)
 
-![image-20250403235734046](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403235734046.png)
+![image-20250403235734046](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403235734046.png)
 
 **3. Configurar la conexión Jenkins ↔ GitLab:** Una vez instalado el GitLab Plugin, configureremos Jenkins para que pueda comunicarse con GitLab:
 
@@ -504,7 +504,7 @@ En Jenkins, vaya a **Manage Jenkins > Configure System**. Desplácese hasta enco
 
 Marqua la casilla **"Enable authentication for '/project' end-point"** 
 
-![image-20250404001729536](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404001729536.png)
+![image-20250404001729536](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404001729536.png)
 
 Esto asegura que Jenkins espere un token para triggers entrantes desde GitLab.
 
@@ -519,7 +519,7 @@ En la sección **"Credentials"** de la configuración (GitLab host credentials),
 Por último, haz clic en **"Test Connection"**. Debería aparecer un mensaje de **"Success"**, indicando que Jenkins se conectó correctamente a GitLab usando ese token.
  Si ves un error, revisa que la URL sea válida y accesible desde el contenedor de Jenkins. Por ejemplo, si Jenkins no puede resolver el nombre `gitlab`, puede que la red no esté configurada correctamente o que debas usar la dirección IP interna del contenedor de GitLab. En la mayoría de los casos, si estás usando Docker Compose con una red personalizada, el nombre de host debería funcionar sin problemas.
 
-![image-20250404001645868](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404001645868.png)
+![image-20250404001645868](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404001645868.png)
 
 Ahora es el momento de generar unas credenciales en Jenkins para poder para que el pipeline funcione correctamente pueda realizar una conexión a a Gitlab y también debe almacenar las credenciales de acceso a Dockerhub, de esta forma evitamos crear un archivo de variables de entorno y tenerlo que ignorar cuando realizamos un push a nuestro repositorio Gitlab.
 
@@ -527,11 +527,11 @@ Para ello debemos almacenar el usuario y la contraseña para el acceso en este c
 
 Una vez añadimos dos credenciales de tipo global, una para GitLab, en **Kind** sleccionamos *Username whit password* añadimos nuestro usuario root de GitLab y la contraseña. como ID usaremos `gitlab-pat`
 
-![image-20250404033930119](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404033930119.png)
+![image-20250404033930119](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404033930119.png)
 
 A continuacion realizaremos el mismo paso anterior pero añadiendo las credenciales para DockeHub y con el ID `dockerhub-cred`
 
-![image-20250404034120547](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404034120547.png)
+![image-20250404034120547](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404034120547.png)
 
 **4. Configurar el job de Jenkins para integrarlo con GitLab**
 En este momento, ya tienes un `Jenkinsfile` en el repositorio y Jenkins sabe cómo autenticarse con GitLab. El siguiente paso es crear en Jenkins un Job de tipo Pipeline que se vincule con tu repositorio de GitLab:
@@ -552,7 +552,7 @@ En este momento, ya tienes un `Jenkinsfile` en el repositorio y Jenkins sabe có
 
   *(Si en lugar de “Pipeline script from SCM” prefieres copiar y pegar el contenido del `Jenkinsfile` en Jenkins, puedes elegir “Pipeline script” y escribirlo ahí mismo. Sin embargo, usar SCM te permite actualizarlo automáticamente cuando el repositorio cambie.)*
 
-  ![image-20250404032317904](/home/v1ct0r/GIT/jenkins_deployment/img/docker-compose.yml)
+  ![image-20250404032317904](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404032317904.png)
 
 - Un poco más arriba, en la configuración del job, encontrarás la sección **Build Triggers**. Con el plugin de GitLab instalado, deberías ver opciones como **“Build when a change is pushed to GitLab”**. Activa esa casilla.
 
@@ -565,17 +565,17 @@ En este momento, ya tienes un `Jenkinsfile` en el repositorio y Jenkins sabe có
 
 Al realizar algún cambio dentro del repositorio GitLab podremos ver como se dispara el triggery se ejecuta el Jenkinsfile y el Scrip creando las imágenes de los dos contenedores en el estado en que se encuentran y subiendolas al repositorio de imagenes de DockeHub. Adjunto algunas capturas y gif de su funcionamiento que lo podemos observar desde la consola de jenkins.
 
-![image-20250404035054059](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404035054059.png)
+![image-20250404035054059](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404035054059.png)
 
 
 
-![image-20250404035105864](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404035105864.png)
+![image-20250404035105864](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404035105864.png)
 
-![Peek 04-04-2025 03-54](/home/v1ct0r/GIT/jenkins_deployment/img/Peek 04-04-2025 03-54.gif)
+![Peek 04-04-2025 03-54](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/Peek%2004-04-2025%2003-54.gif)
 
 
 
-![image-20250404035703855](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404035703855.png)
+![image-20250404035703855](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250404035703855.png)
 
 ## Conclusiones
 
