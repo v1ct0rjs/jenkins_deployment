@@ -4,6 +4,51 @@
 
 Esta documentación detalla paso a paso cómo instalar Docker en Fedora 41, desplegar GitLab Community Edition (CE) y Jenkins LTS en contenedores Docker usando **Docker Compose**, e integrar ambos servicios. También se explica cómo configurar un pipeline en Jenkins para construir imágenes Docker y publicarlas en Docker Hub, incluyendo un **script Bash** (`dockerhub_push.sh`) y un **Jenkinsfile** de ejemplo. La guía está estructurada en secciones, como una documentación tipo `README.md`, para su fácil consulta.
 
+
+
+## Índice
+
+- Introducción
+
+#### Parte 1: Instalación de Docker y Preparación del Entorno
+
+- Instalar Docker Engine y Docker Compose
+- Habilitar y arrancar Docker
+- Verificar Docker Compose
+- Definir archivo docker-compose.yml
+
+#### Parte 2: Configuración Inicial de GitLab
+
+- Obtener la contraseña inicial de root
+- Acceder a la interfaz de GitLab
+- Crear un nuevo repositorio en GitLab
+- Crear un token de acceso personal (PAT) en GitLab
+
+#### Parte 3: Script dockerhub_push.sh
+
+- Funcionalidad del script
+
+#### Parte 4: Jenkinsfile (Pipeline de Jenkins)
+
+- Estructura del pipeline
+
+#### Parte 5: Configuración del Contenedor Jenkins para Docker
+
+- Configurar Docker dentro de Jenkins
+
+#### Parte 6: Integración GitLab – Jenkins
+
+- Obtener contraseña inicial de Jenkins
+- Instalar plugins necesarios en Jenkins
+- Configurar la conexión Jenkins ↔ GitLab
+- Configurar el job de Jenkins para integrarlo con GitLab
+
+#### Pruebas de funcionamiento
+
+#### Conclusiones
+
+
+
 ### Parte 1: Instalación de Docker y Preparación del Entorno
 
 **1. Instalar Docker Engine y Docker Compose:** En Fedora 41, Docker no viene por defecto, así que debemos instalarlo desde los repositorios oficiales de Docker. 
