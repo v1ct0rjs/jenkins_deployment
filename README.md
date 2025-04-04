@@ -51,7 +51,7 @@ sudo docker run hello-world
 docker compose version
 ```
 
-![image-20250403203850089](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403203850089.png)
+[![image-20250403203850089](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403203850089.png)
 
 **4. Definir `docker-compose.yml` con GitLab CE y Jenkins:** Creamo un archivo llamado **`docker-compose.yml`** en el directorio del proyecto con el siguiente contenido:
 
@@ -136,7 +136,7 @@ Guardamos el archivo `docker-compose.yml`. Luego, inicié ambos contenedores con
 docker compose up -d
 ```
 
-![image-20250403205217546](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403205217546.png)
+![image-20250403205217546](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403205217546.png)
 
 Esto descargará las imágenes (si no se tienen ya) y levantará los contenedores en segundo plano (`-d`). Puede verificar que estén corriendo con `docker compose ps` o `docker ps`. La primera vez, **GitLab CE** puede tardar varios minutos en inicializar completamente (configurar la base de datos interna, etc.).
 
@@ -160,12 +160,12 @@ Password: AbCdEfG123456789
 
 **2. Acceder a la interfaz de GitLab:** Abra un navegador web y acceda a la URL de GitLab. Si está en la misma máquina Linux, puede usar `http://localhost` (o `http://<IP-o-hostname>` si es remoto). Debería cargar la pantalla de inicio de GitLab. Haga clic en **"Sign in"** (Iniciar sesión). Ingrese **Username:** `root` y como **Password** utilice la contraseña obtenida en el paso anterior.
 
-![image-20250403221201732](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403221201732.png)
+![image-20250403221201732](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403221201732.png)
 
 Al iniciar sesión por primera vez, GitLab puede pedirte que cambie la contraseña de root por una nueva. Es recomendable hacerlo por seguridad. Alternativamente, podría crear un nuevo usuario administrador distinto, pero para simplificar usaremos `root` en esta guía.
 
 
-![image-20250403221900817](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250403221900817.png)
+![image-20250403221900817](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403221900817.png)
 
 **3. Crear un nuevo repositorio en GitLab:** Una vez dentro de GitLab, cree un proyecto nuevo donde alojaremos nuestro código.
 
