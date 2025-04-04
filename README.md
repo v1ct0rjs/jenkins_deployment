@@ -521,6 +521,18 @@ Por último, haz clic en **"Test Connection"**. Debería aparecer un mensaje de 
 
 ![image-20250404001645868](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404001645868.png)
 
+Ahora es el momento de generar unas credenciales en Jenkins para poder para que el pipeline funcione correctamente pueda realizar una conexión a a Gitlab y también debe almacenar las credenciales de acceso a Dockerhub, de esta forma evitamos crear un archivo de variables de entorno y tenerlo que ignorar cuando realizamos un push a nuestro repositorio Gitlab.
+
+Para ello debemos almacenar el usuario y la contraseña para el acceso en este caso como `root` de Gitlab con su contraseña y el usuario + password de DockerHub. Vamos a Administrar **Jenkins > Credenciales**.
+
+Una vez añadimos dos credenciales de tipo global, una para GitLab, en **Kind** sleccionamos *Username whit password* añadimos nuestro usuario root de GitLab y la contraseña. como ID usaremos `gitlab-pat`
+
+![image-20250404033930119](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404033930119.png)
+
+A continuacion realizaremos el mismo paso anterior pero añadiendo las credenciales para DockeHub y con el ID `dockerhub-cred`
+
+![image-20250404034120547](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404034120547.png)
+
 **4. Configurar el job de Jenkins para integrarlo con GitLab**
 En este momento, ya tienes un `Jenkinsfile` en el repositorio y Jenkins sabe cómo autenticarse con GitLab. El siguiente paso es crear en Jenkins un Job de tipo Pipeline que se vincule con tu repositorio de GitLab:
 
@@ -540,9 +552,54 @@ En este momento, ya tienes un `Jenkinsfile` en el repositorio y Jenkins sabe có
 
   *(Si en lugar de “Pipeline script from SCM” prefieres copiar y pegar el contenido del `Jenkinsfile` en Jenkins, puedes elegir “Pipeline script” y escribirlo ahí mismo. Sin embargo, usar SCM te permite actualizarlo automáticamente cuando el repositorio cambie.)*
 
+  ![image-20250404032317904](/home/v1ct0r/GIT/jenkins_deployment/img/docker-compose.yml)
+
 - Un poco más arriba, en la configuración del job, encontrarás la sección **Build Triggers**. Con el plugin de GitLab instalado, deberías ver opciones como **“Build when a change is pushed to GitLab”**. Activa esa casilla.
 
   - También puedes marcar eventos relacionados con **Merge Requests** si quieres que Jenkins se ejecute cuando se abran o cierren solicitudes de fusión.
   - En **GitLab Connection**, selecciona la conexión que configuraste anteriormente. Así, Jenkins podrá registrar automáticamente un webhook en tu proyecto de GitLab (requiere el token con el alcance “api”). Si no lo hace automáticamente, ve manualmente a **Settings > Webhooks** en GitLab y crea uno usando la URL que Jenkins te muestre (normalmente algo como `http://<JENKINS_HOST>/project/CI%20Demo%20Pipeline`).
 
 - Finalmente, haz clic en **Save** para guardar la configuración del job.
+
+## Pruebas de funcionamiento
+
+Al realizar algún cambio dentro del repositorio GitLab podremos ver como se dispara el triggery se ejecuta el Jenkinsfile y el Scrip creando las imágenes de los dos contenedores en el estado en que se encuentran y subiendolas al repositorio de imagenes de DockeHub. Adjunto algunas capturas y gif de su funcionamiento que lo podemos observar desde la consola de jenkins.
+
+![image-20250404035054059](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404035054059.png)
+
+
+
+![image-20250404035105864](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404035105864.png)
+
+![Peek 04-04-2025 03-54](/home/v1ct0r/GIT/jenkins_deployment/img/Peek 04-04-2025 03-54.gif)
+
+
+
+![image-20250404035703855](/home/v1ct0r/GIT/jenkins_deployment/img/image-20250404035703855.png)
+
+## Conclusiones
+
+Al completar estos pasos, tendrás listo tu propio entorno de CI/CD local usando GitLab CE para gestionar repositorios Git y Jenkins como servidor de integración continua (CI). Todo esto estará orquestado con Docker Compose, lo que facilita muchísimo su despliegue y mantenimiento.
+
+¿Cómo funciona? Muy sencillo: cada vez que realices un commit en tu repositorio GitLab, automáticamente Jenkins lanzará una pipeline (definida mediante un archivo llamado `Jenkinsfile` que tendrás en tu propio repositorio). Esta pipeline construirá imágenes Docker y luego las publicará automáticamente en Docker Hub.
+
+- **Instalación en Fedora 41** utilizando `dnf`:
+  - [Documentación oficial de Docker](https://docs.docker.com/)
+  - [Documentación oficial de Fedora](https://docs.fedoraproject.org/)
+- **Configuración de Docker Compose**:
+  - Gestión de puertos, redes, volúmenes y políticas de reinicio
+  - Ejemplos prácticos con [Docker Compose para GitLab y Jenkins](https://github.com/docker/awesome-compose)
+- **Configuración inicial de GitLab**:
+  - Creación de usuario root, proyectos y generación de tokens
+  - [Guía oficial GitLab](https://docs.gitlab.com/)
+- **Script de construcción y publicación Docker**:
+  - Ejemplo detallado paso a paso con explicaciones en línea
+- **Pipeline en Jenkins usando Jenkinsfile**:
+  - Definición y configuración básica de pipelines CI/CD
+- **Configuraciones clave en Jenkins**:
+  - Uso de Docker desde dentro del contenedor
+  - Instalación de plugins esenciales y gestión de credenciales
+  - Consejos sobre [permisos Docker en Jenkins (Stack Overflow)](https://stackoverflow.com/)
+- **Integración Webhook entre GitLab y Jenkins**:
+  - Automatización de triggers entre ambas plataformas
+
