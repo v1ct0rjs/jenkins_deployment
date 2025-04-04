@@ -253,7 +253,7 @@ echo "Proceso completado exitosamente."
 
 ```
 
-##### **¿Que ahce este script?**:
+#### **¿Que hace este script?**:
 
 1. **Verifica que Docker esté funcionando:**
 
@@ -348,7 +348,7 @@ pipeline {
 
 ------
 
-##### **¿Qué hace este Jenkinsfile?**
+#### **¿Qué hace este Jenkinsfile?**
 
 Este Jenkinsfile define un pipeline de Jenkins para automatizar:
 
@@ -369,7 +369,7 @@ Este Jenkinsfile define un pipeline de Jenkins para automatizar:
 
 ------
 
-##### 🔹 **Etapas del Pipeline**:
+#### 🔹 Etapas del pipeline
 
 ##### 1️⃣ **Checkout**:
 
@@ -447,7 +447,7 @@ Podemos comprobar que todo ha salido bien si desde la shell del host ejecutamos 
 docker exec -u jenkins jenkins docker ps
 ```
 
-![image-20250403233232369](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403232233998.png)
+![image-20250403233232369](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403233232369.png)
 
 ## Parte 6: Integración GitLab – Jenkins
 
@@ -469,7 +469,7 @@ Ahora abre un navegador y vamos a **Jenkins** en `http://localhost:8080`
 
 Jenkins te preguntará qué plugins instalar. Puedes elegir **"Install suggested plugins"** (Instalar plugins sugeridos) para que instale una lista básica recomendada. Esto tomará unos minutos. 
 
-![image-20250403234611732](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403221201732.png)
+![image-20250403234611732](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/img/image-20250403234611732.png)
 
 Luego te pedirá crear un usuario administrador. Puede crear un usuario nuevo (recomendado) o continuar con el usuario `admin` estableciendo una contraseña. 
 
@@ -586,20 +586,16 @@ Al completar estos pasos, tendrás listo tu propio entorno de CI/CD local usando
 - **Instalación en Fedora 41** utilizando `dnf`:
   - [Documentación oficial de Docker](https://docs.docker.com/)
   - [Documentación oficial de Fedora](https://docs.fedoraproject.org/)
+  
 - **Configuración de Docker Compose**:
-  - Gestión de puertos, redes, volúmenes y políticas de reinicio
-  - Ejemplos prácticos con [Docker Compose para GitLab y Jenkins](https://github.com/docker/awesome-compose)
+  
+  - [Docker Compose para GitLab y Jenkins](https://github.com/docker/awesome-compose)
+  
 - **Configuración inicial de GitLab**:
-  - Creación de usuario root, proyectos y generación de tokens
+  
   - [Guía oficial GitLab](https://docs.gitlab.com/)
-- **Script de construcción y publicación Docker**:
-  - Ejemplo detallado paso a paso con explicaciones en línea
-- **Pipeline en Jenkins usando Jenkinsfile**:
-  - Definición y configuración básica de pipelines CI/CD
-- **Configuraciones clave en Jenkins**:
-  - Uso de Docker desde dentro del contenedor
-  - Instalación de plugins esenciales y gestión de credenciales
-  - Consejos sobre [permisos Docker en Jenkins (Stack Overflow)](https://stackoverflow.com/)
-- **Integración Webhook entre GitLab y Jenkins**:
-  - Automatización de triggers entre ambas plataformas
+  
+  
+  
+  
 
