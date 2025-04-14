@@ -43,9 +43,9 @@ Esta documentación detalla paso a paso cómo instalar Docker en Fedora 41, desp
 - Configurar la conexión Jenkins ↔ GitLab
 - Configurar el job de Jenkins para integrarlo con GitLab
 
-#### [Pruebas de funcionamiento](#Pruebas-de-funcionamiento)
+#### Pruebas de funcionamiento
 
-#### [Conclusiones](#Conclusiones)
+#### Conclusiones
 
 
 
