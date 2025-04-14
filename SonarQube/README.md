@@ -209,9 +209,7 @@ tunnels:
 - **Token de autenticación:**
 
   ```yaml
-  authtoken: TU_TOKEN_GENERADO_EN_
-  ￼
-  Navegador Web <--HTTP--> ngrok (expuesto en internet) <--HTTP--> SonarQube (contenedor interno en Docker)NGROK
+  authtoken: TU_TOKEN_GENERADO_EN_NGROK.COM
   ```
 
   Aquí debes colocar tu token personal de ngrok, obtenido al registrarte en [ngrok.com](https://ngrok.com/).
