@@ -49,7 +49,7 @@ Esta documentación detalla paso a paso cómo instalar Docker en Fedora 41, desp
 
 #### Conclusiones
 
-### 📌[ANEXO Implementación con SonarQube](https://github.com/v1ct0rjs/jenkins_deployment/tree/main/SonaQube)📌
+### 📌[ANEXO Implementación con SonarQube](https://github.com/v1ct0rjs/jenkins_deployment/tree/main/SonarQube)📌
  ---
 
 
