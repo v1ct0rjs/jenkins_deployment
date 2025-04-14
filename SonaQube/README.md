@@ -1,4 +1,4 @@
-## Implementación de una instancia de SonarQube pública con Ngrok
+# Implementación de una instancia de SonarQube pública con Ngrok
 
 A continuación, se presenta un **resumen** de cómo configurar Jenkins con SonarQube y Ngrok de forma local, de modo que la instancia de SonarQube sea accesible públicamente, usando **Docker**. Esta documentación complementa la documentación realizada en https://github.com/v1ct0rjs/jenkins_deployment/ añadiendo esta capacidad de inspeccionar el código, automatizando cada vez que se realiza un cambio en el repositorio de GitLab con Jenkins.
 
@@ -6,7 +6,37 @@ A continuación, se presenta un **resumen** de cómo configurar Jenkins con Sona
 
 
 
-### 1 Despliege de los contenedores docker-compose.yml y ngrok.yml
+## Índice
+
+1. **Implementación de una instancia de SonarQube pública con Ngrok**  
+   - Resumen de configuración  
+   - Integración con Jenkins y GitLab  
+
+2. **Parte 1: Despliegue de los contenedores docker-compose.yml y ngrok.yml**  
+   - **docker-compose.yml**  
+     - Servicio `sonarqube-custom`  
+     - Servicio `ngrok-sonarqube`  
+     - Definición adicional en docker-compose  
+   - **ngrok.yml**  
+     - Token de autenticación  
+     - Dirección web de administración Ngrok  
+     - Túneles configurados (SonarQube, Jenkins, GitLab)  
+   - ¿Qué hace en conjunto esta configuración?  
+
+3. **Parte 2: Integrar SonarQube en Jenkins (Docker) con Ngrok**  
+   - Instalar el plugin **SonarQube Scanner for Jenkins**  
+   - Generar token de autenticación en SonarQube  
+   - Configurar el servicio SonarQube en Jenkins  
+   - Uso de `withSonarQubeEnv('MySonarQube')` en el Pipeline  
+   - Configurar la herramienta **SonarQube Scanner**  
+   - Ejecución del análisis SonarQube desde el Pipeline  
+   - Verificación de resultados en SonarQube 
+
+
+
+---
+
+## Parte 1 Despliege de los contenedores docker-compose.yml y ngrok.yml
 
 Estos dos archivos configuran un entorno de contenedores Docker usando `docker-compose.yml` junto con una configuración específica para `ngrok` definida en `ngrok.yml`. 
 
@@ -230,6 +260,145 @@ Con ambos archivos en funcionamiento simultáneo:
 
 Además, la configuración está preparada para integrar fácilmente otros servicios como Jenkins y GitLab, formando así parte de un pipeline de integración continua o desarrollo ágil.
 
+## Parte 2: Integrar SonarQube en Jenkins (Docker) con Ngrok
 
+#### 1. Instalar el plugin **SonarQube Scanner for Jenkins**
 
+Primero, asegúrate de que Jenkins tenga instalado el plugin **SonarQube Scanner for Jenkins**:
 
+- Accede a **Manage Jenkins** > **Manage Plugins**.
+- En la pestaña **Available**, busca **SonarQube Scanner for Jenkins**.
+- Selecciónalo y haz clic en **Install without restart**.
+- Una vez instalado, reinicia Jenkins si es necesario.
+
+Este plugin permite que Jenkins se comunique con SonarQube y ejecute análisis de código.
+
+![image-20250414135636205](/home/v1ct0r/GIT/jenkins_deployment/SonaQube/img/image-20250414135636205.png)
+
+#### 2. Generar un token de autenticación en SonarQube
+
+Para que Jenkins pueda autenticarse con SonarQube, necesitas un token:
+
+- Accede a la interfaz web de SonarQube (por defecto en `http://localhost:9000`).
+
+- Inicia sesión con tus credenciales (por defecto, usuario: `admin`, contraseña: `admin`).
+
+- Despues de acceder te permite cambiar la contraseña.
+
+- Ve a **My Account** > **Security**.
+
+- En la sección **Tokens**, ingresa un nombre (por ejemplo, `jenkins-token`) y haz clic en **Generate**.
+
+- Copia el token generado y guárdalo en un lugar seguro; lo necesitarás más adelante.
+
+  ![image-20250414135756270](/home/v1ct0r/GIT/jenkins_deployment/SonaQube/img/image-20250414135756270.png)
+
+#### 3. Configurar el servicio SonarQube en Jenkins
+
+- En Jenkins, ve a **Manage Jenkins** > **Configure System**.
+
+- Busca la sección **SonarQube servers** y haz clic en **Add SonarQube**.
+
+- Completa los campos:
+
+  - **Name**: un nombre identificador (por ejemplo, `MySonarQube`).
+  - **Server URL**: la URL pública generada por Ngrok.
+  - **Server authentication token**: haz clic en **Add**, selecciona **Secret text**, pega el token generado en SonarQube, asigna un ID (por ejemplo, `SonarQubeToken`) y guárdalo.
+
+- Marca la casilla **Enable injection of SonarQube server configuration as build environment variables**.
+
+- Haz clic en **Save** para guardar la configuración.
+
+  ![image-20250414140207006](/home/v1ct0r/GIT/jenkins_deployment/SonaQube/img/image-20250414140207006.png)
+
+#### 4. Usar `withSonarQubeEnv('MySonarQube')` en el Pipeline
+
+En tu pipeline de Jenkins, utiliza el bloque `withSonarQubeEnv('MySonarQube')` para ejecutar el análisis de SonarQube:
+
+```groovy
+pipeline {
+    agent any
+
+    environment {
+        GIT_CREDENTIALS = 'gitlab-pat'
+        DOCKER_CREDS    = credentials('dockerhub-creds')
+        SONAR_SCANNER_HOME = tool name: 'SonarQubeScanner'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'http://gitlab/root/demo_project.git',
+                    credentialsId: "${GIT_CREDENTIALS}"
+            }
+        }
+
+        stage('Build & Push Docker Images') {
+            steps {
+                sh '''
+                    chmod +x dockerhub_push.sh
+                    DOCKERHUB_USER="$DOCKER_CREDS_USR" \
+                    DOCKERHUB_PASS="$DOCKER_CREDS_PSW" \
+                    ./dockerhub_push.sh
+                '''
+            }
+        }
+
+        stage('Verify Images') {
+            steps {
+                sh "docker images | grep '${env.DOCKER_CREDS_USR}'"
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('MySonarQube') {
+                    sh """
+                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                          -Dsonar.projectKey=demo_project \
+                          -Dsonar.sources=.
+                    """
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+    }
+}
+```
+
+Debes asegurarte de que el nombre `'MySonarQube'` coincida exactamente con el nombre que configuraste en el paso anterior.
+
+#### 5. Configurar la herramienta **SonarQube Scanner** en Jenkins
+
+Para ejecutar el análisis, necesitas configurar el SonarQube Scanner en Jenkins:
+
+- Ve a **Manage Jenkins** > **Tools**.
+
+- Busca la sección **SonarQube Scanner** y haz clic en **Add SonarQube Scanner**.
+
+- Completa los campos:
+
+  - **Name**: un nombre identificador (por ejemplo, `SonarQubeScanner`).
+  - Marca la casilla **Install automatically** y selecciona la versión más reciente del scanner.
+
+- Haz clic en **Save** para guardar la configuración.
+
+  ![image-20250414140519429](/home/v1ct0r/GIT/jenkins_deployment/SonaQube/img/image-20250414140519429.png)
+
+#### 6. Ejecutar el análisis SonarQube desde el Pipeline
+
+Con todo configurado, puedes ejecutar el análisis desde tu prollecto de Jenkins:
+
+![image-20250414140732993](/home/v1ct0r/GIT/jenkins_deployment/SonaQube/img/image-20250414140732993.png)
+
+Como podemos observar se realiza el comprobación del código cuando se realiza un cambio en el respositorio de GitLab que habiamos automatizado anteriormente.
+
+Podemos acceder a la instancia de SonarQube para poder ver que la comprobacion se realizó con exito
+
+![image-20250414140917599](/home/v1ct0r/GIT/jenkins_deployment/SonaQube/img/image-20250414140917599.png)
