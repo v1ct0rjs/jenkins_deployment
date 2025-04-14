@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         GIT_CREDENTIALS = 'gitlab-pat'
-        DOCKER_CREDS = credentials('dockerhub-creds')
+        DOCKER_CREDS    = credentials('dockerhub-creds')
+        SONAR_SCANNER_HOME = tool name: 'SonarQubeScanner'
     }
 
     stages {
@@ -19,9 +20,6 @@ pipeline {
             steps {
                 sh '''
                     chmod +x dockerhub_push.sh
-                    # Usamos las variables expuestas por 'credentials(...)':
-                    #   $DOCKER_CREDS_USR = usuario de DockerHub
-                    #   $DOCKER_CREDS_PSW = contraseña de DockerHub
                     DOCKERHUB_USER="$DOCKER_CREDS_USR" \
                     DOCKERHUB_PASS="$DOCKER_CREDS_PSW" \
                     ./dockerhub_push.sh
@@ -31,10 +29,27 @@ pipeline {
 
         stage('Verify Images') {
             steps {
-                // Verifica que las imágenes se hayan creado localmente
                 sh "docker images | grep '${env.DOCKER_CREDS_USR}'"
             }
         }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('MySonarQube') {
+                    sh """
+                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                          -Dsonar.projectKey=demo_project \
+                          -Dsonar.sources=.
+                    """
+                }
+            }
+        }
+
+        //stage('Quality Gate') {
+        //    steps {
+        //        waitForQualityGate abortPipeline: true
+        //    }
+        //}
     }
 }
 
