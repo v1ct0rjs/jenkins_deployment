@@ -8,27 +8,46 @@ Esta documentación detalla paso a paso cómo instalar Docker en Fedora 41, desp
 
 ---
 
-## 📚 Índice
+### Índice
 
-1. [Introducción](#introducción)
-2. [Instalación de Docker y Preparación del Entorno](#instalación-de-docker-y-preparación-del-entorno)
-    1. [Instalar Docker Engine y Docker Compose](#instalar-docker-engine-y-docker-compose)
-    2. [Habilitar y arrancar Docker](#habilitar-y-arrancar-docker)
-    3. [Verificar Docker Compose](#verificar-docker-compose)
-    4. [Definir archivo docker-compose.yml](#definir-archivo-docker-composeyml)
-3. [Configuración Inicial de GitLab](#configuración-inicial-de-gitlab)
-    1. [Obtener la contraseña inicial de root](#obtener-la-contraseña-inicial-de-root)
-    2. [Acceder a la interfaz de GitLab](#acceder-a-la-interfaz-de-gitlab)
-    3. [Crear un nuevo repositorio en GitLab](#crear-un-nuevo-repositorio-en-gitlab)
-    4. [Crear un token de acceso personal (PAT) en GitLab](#crear-un-token-de-acceso-personal-pat-en-gitlab)
-4. [Script dockerhub_push.sh](#script-dockerhub_pushsh)
-    1. [Funcionalidad del script](#funcionalidad-del-script)
-5. [Jenkinsfile (Pipeline de Jenkins)](#jenkinsfile-pipeline-de-jenkins)
-    1. [Estructura del pipeline](#estructura-del-pipeline)
-6. [Configuración del Contenedor Jenkins para Docker](#configuración-del-contenedor-jenkins-para-docker)
-    1. [Configurar Docker dentro de Jenkins](#configurar-docker-dentro-de-jenkins)
-7. [Integración GitLab
-::contentReference[oaicite:29]{index=29}
+- Introducción
+
+#### [Parte 1: Instalación de Docker y Preparación del Entorno](#Parte-1:-Instalación-de-Docker-y-Preparación-del-Entorno)
+
+- Instalar Docker Engine y Docker Compose
+- Habilitar y arrancar Docker
+- Verificar Docker Compose
+- Definir archivo docker-compose.yml
+
+#### [Parte 2: Configuración Inicial de GitLab](#Parte-2:-Configuración-Inicial-de-GitLab)
+
+- Obtener la contraseña inicial de root
+- Acceder a la interfaz de GitLab
+- Crear un nuevo repositorio en GitLab
+- Crear un token de acceso personal (PAT) en GitLab
+
+#### [Parte 3: Script dockerhub_push.sh](#Parte-3:-Script-dockerhub-push.sh)
+
+- Funcionalidad del script
+
+#### [Parte 4: Jenkinsfile (Pipeline de Jenkins)](#Parte-4:-Jenkinsfile-(Pipeline de Jenkins))
+
+- Estructura del pipeline
+
+#### [Parte 5: Configuración del Contenedor Jenkins para Docker](#Parte-5:-Configuración-del-Contenedor-Jenkins-para-Docker)
+
+- Configurar Docker dentro de Jenkins
+
+#### [Parte 6: Integración GitLab – Jenkins](#Parte-6:-Integración-GitLab-–-Jenkins)
+
+- Obtener contraseña inicial de Jenkins
+- Instalar plugins necesarios en Jenkins
+- Configurar la conexión Jenkins ↔ GitLab
+- Configurar el job de Jenkins para integrarlo con GitLab
+
+#### [Pruebas de funcionamiento](#Pruebas-de-funcionamiento)
+
+#### [Conclusiones](#Conclusiones)
  
 
 
