@@ -273,7 +273,7 @@ Primero, asegúrate de que Jenkins tenga instalado el plugin **SonarQube Scanner
 
 Este plugin permite que Jenkins se comunique con SonarQube y ejecute análisis de código.
 
-![image-20250414135636205](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonaQube/img/image-20250414135636205.png)
+![image-20250414135636205](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonarQube/img/image-20250414135636205.png)
 
 #### 2. Generar un token de autenticación en SonarQube
 
@@ -291,7 +291,7 @@ Para que Jenkins pueda autenticarse con SonarQube, necesitas un token:
 
 - Copia el token generado y guárdalo en un lugar seguro; lo necesitarás más adelante.
 
-  ![image-20250414135756270](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonaQube/img/image-20250414135756270.png)
+  ![image-20250414135756270](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonarQube/img/image-20250414135756270.png)
 
 #### 3. Configurar el servicio SonarQube en Jenkins
 
@@ -309,7 +309,7 @@ Para que Jenkins pueda autenticarse con SonarQube, necesitas un token:
 
 - Haz clic en **Save** para guardar la configuración.
 
-  ![image-20250414140207006](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonaQube/img/image-20250414140207006.png)
+  ![image-20250414140207006](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonarQube/img/image-20250414140207006.png)
 
 #### 4. Usar `withSonarQubeEnv('MySonarQube')` en el Pipeline
 
@@ -389,16 +389,16 @@ Para ejecutar el análisis, necesitas configurar el SonarQube Scanner en Jenkins
 
 - Haz clic en **Save** para guardar la configuración.
 
-  ![image-20250414140519429](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonaQube/img/image-20250414140519429.png)
+  ![image-20250414140519429](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonarQube/img/image-20250414140519429.png)
 
 #### 6. Ejecutar el análisis SonarQube desde el Pipeline
 
 Con todo configurado, puedes ejecutar el análisis desde tu prollecto de Jenkins:
 
-![image-20250414140732993](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonaQube/img/image-20250414140732993.png)
+![image-20250414140732993](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonarQube/img/image-20250414140732993.png)
 
 Como podemos observar se realiza el comprobación del código cuando se realiza un cambio en el respositorio de GitLab que habiamos automatizado anteriormente.
 
 Podemos acceder a la instancia de SonarQube para poder ver que la comprobacion se realizó con exito
 
-![image-20250414140917599](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonaQube/img/image-20250414140917599.png)
+![image-20250414140917599](https://github.com/v1ct0rjs/jenkins_deployment/blob/main/SonarQube/img/image-20250414140917599.png)
